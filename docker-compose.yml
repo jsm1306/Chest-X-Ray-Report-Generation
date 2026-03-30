@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  medical-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medical-diagnosis-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - TF_CPP_MIN_LOG_LEVEL=2
+      - CUDA_VISIBLE_DEVICES=""  # Set to GPU ID if using NVIDIA GPU
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Uncomment for GPU support (requires nvidia-docker)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # Optional: Nginx reverse proxy
+  # nginx:
+  #   image: nginx:alpine
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - medical-api
+
+volumes:
+  uploads:
+  logs:
