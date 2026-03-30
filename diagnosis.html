@@ -134,8 +134,8 @@
                         Clinical Curator
                     </div>
 <nav class="hidden md:flex items-center gap-8">
-<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">Home</a>
-<a class="text-[#1A365D] dark:text-blue-300 border-b-2 border-[#1A365D] pb-1 active:opacity-70 transition-all duration-200" href="#">New Analysis</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="landing.html">Home</a>
+<a class="text-[#1A365D] dark:text-blue-300 border-b-2 border-[#1A365D] pb-1 active:opacity-70 transition-all duration-200" href="analysis.html">New Analysis</a>
 <a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">History</a>
 <a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">Support</a>
 </nav>
@@ -157,59 +157,29 @@
 <div class="p-12 max-w-7xl mx-auto w-full space-y-12">
 <!-- Header Editorial Section -->
 <section class="space-y-2">
-<span class="text-on-tertiary-fixed-variant bg-tertiary-fixed/30 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">Diagnostic Module</span>
-<h1 class="text-primary font-headline text-4xl font-extrabold tracking-tighter">Image Analysis Workspace</h1>
-<p class="text-on-surface-variant max-w-2xl font-body leading-relaxed">Securely upload DICOM and high-resolution imaging for automated pathological assessment. Our Clinical Curator intelligence provides a 99.4% precision layer over raw scan data.</p>
+<span class="text-on-tertiary-fixed-variant bg-tertiary-fixed/30 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">Diagnostic Results</span>
+<h1 class="text-primary font-headline text-4xl font-extrabold tracking-tighter">Analysis Complete</h1>
+<p class="text-on-surface-variant max-w-2xl font-body leading-relaxed">AI-powered diagnostic analysis has been completed. Review the generated report below.</p>
 </section>
-<!-- Two-Column Asymmetric Layout -->
+<!-- Report Display -->
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-<!-- Left: Upload Zone (Col 8) -->
 <div class="lg:col-span-8 space-y-8">
-<div class="bg-surface-container-low rounded-xl p-1 w-full">
-<div class="bg-surface-container-lowest border-2 border-dashed border-outline-variant/30 rounded-lg p-12 flex flex-col items-center justify-center min-h-[450px] space-y-6 transition-all hover:bg-white premium-shadow">
-<div class="w-20 h-20 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary">
-<span class="material-symbols-outlined !text-4xl">cloud_upload</span>
+<div class="bg-white rounded-xl p-8 premium-shadow border border-outline-variant/10">
+<div class="flex items-center gap-3 pb-6 border-b border-outline-variant/15">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">description</span>
 </div>
-<div class="text-center space-y-2">
-<h2 class="font-headline text-2xl font-bold text-primary">Drag &amp; drop medical imaging</h2>
-<p class="text-on-surface-variant font-body">X-ray, MRI, CT, or Skin Pathology scans</p>
+<h3 class="font-headline font-bold text-primary">Generated Medical Report</h3>
 </div>
-<div class="flex flex-col items-center gap-4 w-full max-w-xs">
-<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 px-8 rounded-xl font-headline font-bold text-sm transition-transform active:scale-95 shadow-lg shadow-primary/10">
-                                        Browse Files
-                                    </button>
-<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Supported formats: JPG, PNG, DICOM</p>
+<div id="reportContent" class="space-y-4 text-on-surface leading-relaxed">
+<!-- Report text will be loaded here -->
 </div>
-<div class="pt-8 grid grid-cols-3 gap-4 w-full max-w-md">
-<div class="p-4 bg-surface-container-low rounded-lg flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-primary/40">radiology</span>
-<span class="text-[10px] font-bold uppercase text-on-surface-variant">Radiology</span>
+<div class="pt-6">
+<button id="viewFullReportBtn" class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-xl font-headline font-bold text-sm flex items-center justify-center gap-3 transition-transform active:scale-[0.98] shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">visibility</span>
+View Full Report
+</button>
 </div>
-<div class="p-4 bg-surface-container-low rounded-lg flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-primary/40">neurology</span>
-<span class="text-[10px] font-bold uppercase text-on-surface-variant">Neurology</span>
-</div>
-<div class="p-4 bg-surface-container-low rounded-lg flex flex-col items-center gap-2">
-<span class="material-symbols-outlined text-primary/40">dermatology</span>
-<span class="text-[10px] font-bold uppercase text-on-surface-variant">Dermatology</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Secondary Actions -->
-<div class="flex items-center justify-between p-6 bg-surface-container-low rounded-xl">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 1;">security</span>
-</div>
-<div>
-<p class="text-xs font-bold text-primary uppercase tracking-wider">HIPAA Compliant</p>
-<p class="text-[11px] text-on-surface-variant">End-to-end encryption active</p>
-</div>
-</div>
-<button class="bg-surface-container-high text-primary px-6 py-3 rounded-lg font-headline font-bold text-xs uppercase tracking-widest hover:bg-outline-variant/20 transition-colors">
-                                Archive Settings
-                            </button>
 </div>
 </div>
 <!-- Right: Patient Info Sidebar (Col 4) -->
@@ -279,4 +249,24 @@
 </footer>
 </main>
 </div>
+<script>
+    // Load report on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportText = localStorage.getItem('medicalReport');
+        const reportContent = document.getElementById('reportContent');
+        
+        if (reportText) {
+            // Format the report text with paragraphs
+            const paragraphs = reportText.split('\n').filter(p => p.trim());
+            reportContent.innerHTML = paragraphs.map(p => `<p class="font-body text-sm">${p}</p>`).join('');
+        } else {
+            reportContent.innerHTML = '<p class="text-error font-body text-sm">No report found. Please go back and analyze an image.</p>';
+        }
+    });
+
+    // View Full Report button
+    document.getElementById('viewFullReportBtn').addEventListener('click', () => {
+        window.location.href = 'report.html';
+    });
+</script>
 </body></html>

@@ -89,10 +89,28 @@
     </style>
 </head>
 <body class="bg-surface font-body text-on-surface flex flex-col items-center min-h-screen">
+<!-- TopNavBar -->
+<header class="no-print w-full sticky top-0 z-50 bg-[#f7f9fb] dark:bg-slate-950">
+<nav class="flex justify-between items-center w-full px-12 py-4 mx-auto">
+<div class="text-xl font-extrabold tracking-tighter text-[#1A365D] dark:text-blue-400 font-['Manrope']">
+                Clinical Curator
+            </div>
+<div class="hidden md:flex items-center gap-8 font-['Manrope'] tracking-tight text-sm font-semibold">
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200" href="landing.html">Home</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200" href="analysis.html">New Analysis</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200" href="#">History</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200" href="#">Support</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#1A365D] dark:text-blue-400 p-2 hover:bg-[#f2f4f6] rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-[#1A365D] dark:text-blue-400 p-2 hover:bg-[#f2f4f6] rounded-full transition-colors" data-icon="account_circle">account_circle</button>
+</div>
+</nav>
+</header>
 <!-- Action Bar (Floating) -->
 <div class="no-print sticky top-6 z-50 mb-8">
 <div class="flex items-center gap-3 px-6 py-3 bg-surface-container-lowest/80 backdrop-blur-xl rounded-full border border-outline-variant/15 shadow-lg">
-<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label text-xs font-semibold uppercase tracking-wider hover:opacity-90 transition-all active:scale-95">
+<button id="downloadBtn" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label text-xs font-semibold uppercase tracking-wider hover:opacity-90 transition-all active:scale-95">
 <span class="material-symbols-outlined text-sm">download</span>
                 Download PDF
             </button>
@@ -137,15 +155,15 @@
 <div class="grid grid-cols-3 gap-8 bg-surface-container-low p-8 rounded-xl">
 <div class="flex flex-col gap-1">
 <span class="font-label text-[11px] uppercase tracking-widest text-on-surface-variant">Patient Name</span>
-<span class="font-headline text-lg font-bold text-on-surface">John Doe</span>
+<span id="patientNameDisplay" class="font-headline text-lg font-bold text-on-surface">Patient</span>
 </div>
 <div class="flex flex-col gap-1">
-<span class="font-label text-[11px] uppercase tracking-widest text-on-surface-variant">Age / Gender</span>
-<span class="font-headline text-lg font-bold text-on-surface">45 Yrs / Male</span>
+<span class="font-label text-[11px] uppercase tracking-widest text-on-surface-variant">Age</span>
+<span id="patientAgeDisplay" class="font-headline text-lg font-bold text-on-surface">N/A</span>
 </div>
 <div class="flex flex-col gap-1">
 <span class="font-label text-[11px] uppercase tracking-widest text-on-surface-variant">Report Date</span>
-<span class="font-headline text-lg font-bold text-on-surface">May 12, 2024</span>
+<span class="font-headline text-lg font-bold text-on-surface">March 30, 2026</span>
 </div>
 </div>
 </section>
@@ -173,7 +191,7 @@
 <div class="bg-primary-container/5 p-6 rounded-lg border-l-2 border-primary-container">
 <span class="font-headline text-xs font-bold text-primary-container uppercase tracking-wider block mb-2">Impression</span>
 <p class="font-body text-sm font-medium italic text-primary">
-                            Negative for acute cardiopulmonary process. Lungs are clear, and cardiac size is stable. No actionable findings identified at this resolution level.
+                            <span id="reportFindings"><!-- Dynamic report content will be loaded here --></span>
                         </p>
 </div>
 </div>
@@ -235,4 +253,88 @@
 <span class="font-label text-[10px] uppercase tracking-widest">Archive Ref: P-19283</span>
 </div>
 </div>
+<script>
+    // Configuration
+    const API_BASE = 'http://localhost:8000';
+
+    // Load report on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportText = localStorage.getItem('medicalReport');
+        const reportFindings = document.getElementById('reportFindings');
+        const patientNameDisplay = document.getElementById('patientNameDisplay');
+        const patientAgeDisplay = document.getElementById('patientAgeDisplay');
+        
+        // Load patient info
+        const patientName = localStorage.getItem('patientName') || 'Patient';
+        const patientAge = localStorage.getItem('patientAge') || 'N/A';
+        
+        patientNameDisplay.textContent = patientName;
+        patientAgeDisplay.textContent = patientAge;
+        
+        if (reportText) {
+            reportFindings.textContent = reportText;
+        } else {
+            reportFindings.textContent = 'No report available. Please analyze an image first.';
+        }
+    });
+
+    // Download PDF functionality
+    const downloadBtn = document.getElementById('downloadBtn');
+    downloadBtn.addEventListener('click', async () => {
+        const reportText = localStorage.getItem('medicalReport');
+        if (!reportText) {
+            alert('No report available to download');
+            return;
+        }
+
+        // Show loading state
+        const originalText = downloadBtn.innerHTML;
+        downloadBtn.disabled = true;
+        downloadBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">download</span> Generating PDF...';
+
+        try {
+            const patientName = localStorage.getItem('patientName') || 'Patient';
+            const patientAge = localStorage.getItem('patientAge') || 'N/A';
+
+            console.log('Sending PDF download request...');
+            const response = await fetch(`${API_BASE}/download-report`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                report_text: reportText,
+                patient_name: patientName,
+                patient_age: patientAge
+            })
+        });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            console.log('PDF response received');
+            // Get the PDF blob
+            const blob = await response.blob();
+            
+            // Create download link
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'medical_report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error downloading PDF. Please try again.');
+        } finally {
+            downloadBtn.disabled = false;
+            downloadBtn.innerHTML = originalText;
+        }
+    });
+</script>
 </body></html>

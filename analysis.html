@@ -134,8 +134,8 @@
                         Clinical Curator
                     </div>
 <nav class="hidden md:flex items-center gap-8">
-<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">Home</a>
-<a class="text-[#1A365D] dark:text-blue-300 border-b-2 border-[#1A365D] pb-1 active:opacity-70 transition-all duration-200" href="#">New Analysis</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="landing.html">Home</a>
+<a class="text-[#1A365D] dark:text-blue-300 border-b-2 border-[#1A365D] pb-1 active:opacity-70 transition-all duration-200" href="analysis.html">New Analysis</a>
 <a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">History</a>
 <a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">Support</a>
 </nav>
@@ -175,10 +175,11 @@
 <p class="text-on-surface-variant font-body">X-ray, MRI, CT, or Skin Pathology scans</p>
 </div>
 <div class="flex flex-col items-center gap-4 w-full max-w-xs">
-<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 px-8 rounded-xl font-headline font-bold text-sm transition-transform active:scale-95 shadow-lg shadow-primary/10">
+<input type="file" id="imageInput" accept="image/*" class="hidden">
+<button id="browseBtn" class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 px-8 rounded-xl font-headline font-bold text-sm transition-transform active:scale-95 shadow-lg shadow-primary/10">
                                         Browse Files
                                     </button>
-<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Supported formats: JPG, PNG, DICOM</p>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Supported formats: JPG, PNG</p>
 </div>
 <div class="pt-8 grid grid-cols-3 gap-4 w-full max-w-md">
 <div class="p-4 bg-surface-container-low rounded-lg flex flex-col items-center gap-2">
@@ -242,7 +243,7 @@
 </div>
 </div>
 <div class="pt-6 space-y-4">
-<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-xl font-headline font-bold text-sm flex items-center justify-center gap-3 transition-transform active:scale-[0.98] shadow-lg shadow-primary/20">
+<button id="analyzeBtn" class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-xl font-headline font-bold text-sm flex items-center justify-center gap-3 transition-transform active:scale-[0.98] shadow-lg shadow-primary/20">
 <span class="material-symbols-outlined">biotech</span>
                                     Analyze Image
                                 </button>
@@ -279,4 +280,126 @@
 </footer>
 </main>
 </div>
+<script>
+    // Configuration
+    const API_BASE = 'http://localhost:8000';
+
+    const imageInput = document.getElementById('imageInput');
+    const browseBtn = document.getElementById('browseBtn');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const uploadZone = document.querySelector('.border-2.border-dashed');
+    let selectedFile = null;
+
+    // File input handling
+    browseBtn.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file (JPG, PNG)');
+                return;
+            }
+            selectedFile = file;
+            // Update UI to show selected file
+            uploadZone.innerHTML = `
+                <div class="w-20 h-20 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary">
+                    <span class="material-symbols-outlined !text-4xl">check_circle</span>
+                </div>
+                <div class="text-center space-y-2">
+                    <h2 class="font-headline text-2xl font-bold text-primary">File Selected</h2>
+                    <p class="text-on-surface-variant font-body">${file.name}</p>
+                </div>
+            `;
+        }
+    });
+
+    // Drag and drop functionality
+    uploadZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadZone.classList.add('border-primary');
+    });
+
+    uploadZone.addEventListener('dragleave', () => {
+        uploadZone.classList.remove('border-primary');
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove('border-primary');
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            selectedFile = file;
+            imageInput.files = e.dataTransfer.files;
+            uploadZone.innerHTML = `
+                <div class="w-20 h-20 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary">
+                    <span class="material-symbols-outlined !text-4xl">check_circle</span>
+                </div>
+                <div class="text-center space-y-2">
+                    <h2 class="font-headline text-2xl font-bold text-primary">File Selected</h2>
+                    <p class="text-on-surface-variant font-body">${file.name}</p>
+                </div>
+            `;
+        } else {
+            alert('Please drop a valid image file (JPG, PNG)');
+        }
+    });
+
+    // Analyze button functionality
+    analyzeBtn.addEventListener('click', async () => {
+        if (!selectedFile) {
+            alert('Please select an image file first');
+            return;
+        }
+
+        // Get patient info from form
+        const patientName = document.querySelector('input[placeholder*="Elena Rodriguez"]')?.value || 'Patient';
+        const patientAge = document.querySelector('input[type="number"]')?.value || 'N/A';
+        const patientId = document.querySelector('input[placeholder*="PX-"]')?.value || 'N/A';
+        const clinicalContext = document.querySelector('textarea')?.value || '';
+
+        // Show loading state
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Analyzing...';  
+
+                try {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('patient_name', patientName);
+        formData.append('patient_age', patientAge);
+
+        console.log('Sending request to generate report...');
+        const response = await fetch(`${API_BASE}/generate-report`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Report generated:', data);
+        
+        // Store report and patient info in localStorage
+        localStorage.setItem('medicalReport', data.report || data.text || 'No report generated');
+        localStorage.setItem('patientName', patientName);
+        localStorage.setItem('patientAge', patientAge);
+        localStorage.setItem('patientId', patientId);
+        localStorage.setItem('clinicalContext', clinicalContext);
+        
+        // Redirect to diagnosis page
+        window.location.href = 'diagnosis.html';
+                    
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error generating report. Please try again.');
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML = '<span class="material-symbols-outlined">biotech</span> Analyze Image';
+    }
+            });
+</script>
 </body></html>
