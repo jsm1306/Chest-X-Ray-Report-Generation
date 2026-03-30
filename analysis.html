@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Curator | Medical Image Analysis Workspace</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#2d3133",
+              "outline-variant": "#c4c6cf",
+              "surface-container-high": "#e6e8ea",
+              "on-primary-fixed": "#001b3c",
+              "inverse-on-surface": "#eff1f3",
+              "on-secondary": "#ffffff",
+              "on-surface": "#191c1e",
+              "tertiary-container": "#003f25",
+              "on-primary-fixed-variant": "#2d476f",
+              "primary-fixed-dim": "#adc7f7",
+              "on-tertiary-container": "#5caf81",
+              "on-tertiary-fixed": "#002111",
+              "surface-bright": "#f7f9fb",
+              "secondary": "#546066",
+              "secondary-container": "#d5e2e9",
+              "background": "#f7f9fb",
+              "secondary-fixed": "#d8e4eb",
+              "tertiary": "#002715",
+              "surface-container-low": "#f2f4f6",
+              "primary": "#002045",
+              "on-error-container": "#93000a",
+              "tertiary-fixed": "#9ff5c1",
+              "secondary-fixed-dim": "#bcc8cf",
+              "error": "#ba1a1a",
+              "on-secondary-fixed-variant": "#3c494e",
+              "tertiary-fixed-dim": "#83d8a6",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#d6e3ff",
+              "inverse-primary": "#adc7f7",
+              "outline": "#74777f",
+              "on-primary-container": "#86a0cd",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed": "#111d22",
+              "on-secondary-container": "#58646a",
+              "surface": "#f7f9fb",
+              "on-background": "#191c1e",
+              "on-surface-variant": "#43474e",
+              "surface-container": "#eceef0",
+              "on-error": "#ffffff",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#005231",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#455f88",
+              "primary-container": "#1a365d",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .premium-shadow {
+            box-shadow: 0 12px 32px -4px rgba(0, 32, 69, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<div class="flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen sticky left-0 w-72 flex flex-col bg-[#f2f4f6] dark:bg-slate-900 font-['Inter'] text-sm font-medium transition-transform duration-300">
+<div class="px-8 py-10 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white premium-shadow">
+<span class="material-symbols-outlined">clinical_notes</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-surface leading-tight">Dr. Curator</h3>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Senior Pathologist</p>
+</div>
+</div>
+<nav class="flex flex-col py-8 gap-2">
+<a class="text-slate-600 dark:text-slate-400 pl-10 py-3 hover:bg-white/50 dark:hover:bg-slate-800/30 transition-colors flex items-center gap-4 group scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="bg-white dark:bg-slate-800 text-[#1A365D] dark:text-blue-300 font-bold rounded-l-full ml-4 pl-6 py-3 flex items-center gap-4 scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Patient Analytics
+                </a>
+<a class="text-slate-600 dark:text-slate-400 pl-10 py-3 hover:bg-white/50 dark:hover:bg-slate-800/30 transition-colors flex items-center gap-4 group scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+                    Lab Archives
+                </a>
+<a class="text-slate-600 dark:text-slate-400 pl-10 py-3 hover:bg-white/50 dark:hover:bg-slate-800/30 transition-colors flex items-center gap-4 group scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</nav>
+<div class="mt-auto p-8">
+<button class="w-full py-4 bg-error-container text-on-error-container font-headline font-bold rounded-xl text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
+                    Emergency Alert
+                </button>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full sticky top-0 z-50 bg-[#f7f9fb] dark:bg-slate-950 font-['Manrope'] tracking-tight text-sm font-semibold">
+<div class="flex justify-between items-center w-full px-12 py-4 mx-auto bg-[#f2f4f6] dark:bg-slate-900/50">
+<div class="text-xl font-extrabold tracking-tighter text-[#1A365D] dark:text-blue-400 font-['Manrope']">
+                        Clinical Curator
+                    </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">Home</a>
+<a class="text-[#1A365D] dark:text-blue-300 border-b-2 border-[#1A365D] pb-1 active:opacity-70 transition-all duration-200" href="#">New Analysis</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">History</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1A365D] dark:hover:text-blue-200 transition-all duration-200 active:opacity-70" href="#">Support</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-xs w-64 focus:ring-1 focus:ring-primary transition-all" placeholder="Search records..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Workspace Canvas -->
+<div class="p-12 max-w-7xl mx-auto w-full space-y-12">
+<!-- Header Editorial Section -->
+<section class="space-y-2">
+<span class="text-on-tertiary-fixed-variant bg-tertiary-fixed/30 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">Diagnostic Module</span>
+<h1 class="text-primary font-headline text-4xl font-extrabold tracking-tighter">Image Analysis Workspace</h1>
+<p class="text-on-surface-variant max-w-2xl font-body leading-relaxed">Securely upload DICOM and high-resolution imaging for automated pathological assessment. Our Clinical Curator intelligence provides a 99.4% precision layer over raw scan data.</p>
+</section>
+<!-- Two-Column Asymmetric Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Left: Upload Zone (Col 8) -->
+<div class="lg:col-span-8 space-y-8">
+<div class="bg-surface-container-low rounded-xl p-1 w-full">
+<div class="bg-surface-container-lowest border-2 border-dashed border-outline-variant/30 rounded-lg p-12 flex flex-col items-center justify-center min-h-[450px] space-y-6 transition-all hover:bg-white premium-shadow">
+<div class="w-20 h-20 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined !text-4xl">cloud_upload</span>
+</div>
+<div class="text-center space-y-2">
+<h2 class="font-headline text-2xl font-bold text-primary">Drag &amp; drop medical imaging</h2>
+<p class="text-on-surface-variant font-body">X-ray, MRI, CT, or Skin Pathology scans</p>
+</div>
+<div class="flex flex-col items-center gap-4 w-full max-w-xs">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 px-8 rounded-xl font-headline font-bold text-sm transition-transform active:scale-95 shadow-lg shadow-primary/10">
+                                        Browse Files
+                                    </button>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Supported formats: JPG, PNG, DICOM</p>
+</div>
+<div class="pt-8 grid grid-cols-3 gap-4 w-full max-w-md">
+<div class="p-4 bg-surface-container-low rounded-lg flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary/40">radiology</span>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">Radiology</span>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary/40">neurology</span>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">Neurology</span>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary/40">dermatology</span>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">Dermatology</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Actions -->
+<div class="flex items-center justify-between p-6 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary uppercase tracking-wider">HIPAA Compliant</p>
+<p class="text-[11px] text-on-surface-variant">End-to-end encryption active</p>
+</div>
+</div>
+<button class="bg-surface-container-high text-primary px-6 py-3 rounded-lg font-headline font-bold text-xs uppercase tracking-widest hover:bg-outline-variant/20 transition-colors">
+                                Archive Settings
+                            </button>
+</div>
+</div>
+<!-- Right: Patient Info Sidebar (Col 4) -->
+<aside class="lg:col-span-4 space-y-8 h-full">
+<div class="bg-white rounded-xl p-8 premium-shadow space-y-8 border border-outline-variant/10">
+<div class="flex items-center gap-3 pb-6 border-b border-outline-variant/15">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<h3 class="font-headline font-bold text-primary">Patient Information</h3>
+</div>
+<div class="space-y-6">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Full Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-1 focus:ring-primary" placeholder="e.g. Elena Rodriguez" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Age</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-1 focus:ring-primary" placeholder="42" type="number"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Patient ID</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-1 focus:ring-primary" placeholder="PX-2940" type="text"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Clinical Context</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm focus:ring-1 focus:ring-primary resize-none" placeholder="Symptoms, duration, medical history notes..." rows="3"></textarea>
+</div>
+</div>
+<div class="pt-6 space-y-4">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-xl font-headline font-bold text-sm flex items-center justify-center gap-3 transition-transform active:scale-[0.98] shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">biotech</span>
+                                    Analyze Image
+                                </button>
+<button class="w-full border border-primary/20 text-primary py-4 rounded-xl font-headline font-bold text-sm transition-colors hover:bg-primary/5">
+                                    Save Draft
+                                </button>
+</div>
+</div>
+<!-- Context Card -->
+<div class="relative overflow-hidden rounded-xl h-48 premium-shadow group">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Close-up of a high-resolution MRI scan on a professional medical monitor in a dark clinic room with cool blue ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABKL-lG6WmYB8l92Vy8zRYeQXX4Gm6Z239lAXE2G52JJAOzyjSqzx52d0pgsyU8Sd-4TuN4KD8NGovt2Y2WKkPr6SyOC4sUZjUWAat4fLNG6BPXs9Km68_H9EIuU75mizheGtTl2avBRgeqykGOYlI4LXbRE6BrUmomDlLXv22BZ1W_hpswcl-6tu5GtAeH9UaHvsinMSWp4wkc92uscP0GRgNCRlpvq_d9rexiwp6wSzxDMK8-W3QAy0BEn0My5Waimj1_lUt_TA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent p-6 flex flex-col justify-end">
+<p class="text-white text-xs font-bold uppercase tracking-widest">Global Diagnostics</p>
+<h4 class="text-white font-headline font-bold">Latest ML Training Batch</h4>
+<p class="text-blue-100 text-[10px] mt-1">2.4M cases processed this month</p>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full mt-auto py-12 px-12 bg-[#f7f9fb] dark:bg-slate-950 border-t border-[#c4c6cf]/15">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 font-['Inter'] text-[11px] uppercase tracking-widest">
+<p class="text-slate-500 dark:text-slate-400">© 2024 Clinical Curator Intelligence. High-Precision Diagnostic Environment.</p>
+<div class="flex gap-8">
+<a class="text-slate-400 hover:text-[#1A365D] dark:hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-slate-400 hover:text-[#1A365D] dark:hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="text-slate-400 hover:text-[#1A365D] dark:hover:text-white transition-colors" href="#">Medical Disclaimer</a>
+</div>
+<div class="text-[#1A365D] dark:text-blue-400 font-bold">
+                        CLINICAL CURATOR
+                    </div>
+</div>
+</footer>
+</main>
+</div>
+</body></html>
